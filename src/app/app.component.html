@@ -2,4 +2,10 @@
   <h1>
     Hello Angular
   </h1>
+  <mat-paginator
+    [length]="100"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+  ></mat-paginator>
+  <app-news-list> </app-news-list>
 </div>
