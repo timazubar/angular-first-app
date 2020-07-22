@@ -13,22 +13,24 @@ export interface NewsItem {
   styleUrls: ['./news-list.component.scss'],
 })
 export class NewsListComponent implements OnInit {
+  search = '';
+
   news: NewsItem[] = [
     {
       id: 1,
-      title: 'News1',
+      title: 'Hey Ho',
       source: 'Source1',
       urlToImage: 'http://gregfranko.com/images/JavaScript-logo-small.png',
     },
     {
       id: 2,
-      title: 'News2',
+      title: 'Trump Ho',
       source: 'Source2',
       urlToImage: 'http://gregfranko.com/images/JavaScript-logo-small.png',
     },
     {
       id: 3,
-      title: 'News3',
+      title: 'Ho Hey',
       source: 'Source3',
       urlToImage: 'http://gregfranko.com/images/JavaScript-logo-small.png',
     },

@@ -1,3 +1,14 @@
 <div>
-  <app-news-item *ngFor="let i of news" [item]="i"> </app-news-item>
+  <mat-form-field class="input-filter-group">
+    <mat-label>Filter news by title</mat-label>
+    <input
+      type="text"
+      matInput
+      placeholder="Input title"
+      [(ngModel)]="search"
+    />
+  </mat-form-field>
+
+  <app-news-item *ngFor="let i of news | filter: search" [item]="i">
+  </app-news-item>
 </div>
