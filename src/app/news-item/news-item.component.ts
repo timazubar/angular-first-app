@@ -1,6 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { NewsItem } from '../news-list/news-list.component';
+export interface NewsItem {
+  title: string;
+  description: string;
+  url: string;
+  urlToImage?: string;
+}
 
 @Component({
   selector: 'app-news-item',

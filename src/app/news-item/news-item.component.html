@@ -1,5 +1,6 @@
 <mat-card class="card">
   <mat-card-title>{{ item.title }}</mat-card-title>
-  <mat-card-content>{{ item.source }}</mat-card-content>
-  <img mat-card-sm-image src="{{ item.urlToImage }}" />
+  <mat-card-content>{{ item.description }}</mat-card-content>
+  <img mat-card-image src="{{ item.urlToImage }}" />
+  <a [href]="item.url">Link to the article</a>
 </mat-card>

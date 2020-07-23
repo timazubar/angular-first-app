@@ -9,6 +9,9 @@
     />
   </mat-form-field>
 
-  <app-news-item *ngFor="let i of news | filter: search" [item]="i">
+  <app-news-item
+    *ngFor="let article of articles | filter: search"
+    [item]="article"
+  >
   </app-news-item>
 </div>

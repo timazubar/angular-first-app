@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-export interface NewsItem {
-  id?: number;
-  title: string;
-  source: string;
-  urlToImage?: string;
+import { FetchNewsService } from './../services/fetch-news.service';
+import { NewsItem } from '../news-item/news-item.component';
+
+export interface NewsList {
+  articles: NewsItem[];
+  totalResults: number;
 }
 
 @Component({
@@ -15,28 +16,13 @@ export interface NewsItem {
 export class NewsListComponent implements OnInit {
   search = '';
 
-  news: NewsItem[] = [
-    {
-      id: 1,
-      title: 'Hey Ho',
-      source: 'Source1',
-      urlToImage: 'http://gregfranko.com/images/JavaScript-logo-small.png',
-    },
-    {
-      id: 2,
-      title: 'Trump Ho',
-      source: 'Source2',
-      urlToImage: 'http://gregfranko.com/images/JavaScript-logo-small.png',
-    },
-    {
-      id: 3,
-      title: 'Ho Hey',
-      source: 'Source3',
-      urlToImage: 'http://gregfranko.com/images/JavaScript-logo-small.png',
-    },
-  ];
+  articles: NewsItem[];
 
-  constructor() {}
+  constructor(private fetchNewsService: FetchNewsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.fetchNewsService
+      .getArticles()
+      .subscribe((data) => (this.articles = data['articles']));
+  }
 }

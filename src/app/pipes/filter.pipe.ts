@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { NewsItem } from '../news-list/news-list.component';
+import { NewsItem } from '../news-item/news-item.component';
 
 @Pipe({
   name: 'filter',
