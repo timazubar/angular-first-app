@@ -18,12 +18,19 @@ export class FetchNewsService {
   //   );
   // }
 
-  async getArticles() {
+  async getArticles(): Promise<any> {
+    const response = await fetch(
+      `${this.BASE_URL}?country=ua&pageSize=10&apiKey=${this.API_KEY}`
+    );
+    const { articles } = await response.json();
+    return articles;
+  }
+
+  async getTotalResults(): Promise<any> {
     const response = await fetch(
       `${this.BASE_URL}?country=us&pageSize=10&apiKey=${this.API_KEY}`
     );
-    const { articles } = await response.json();
-
-    return articles;
+    const { totalResults } = await response.json();
+    return totalResults;
   }
 }

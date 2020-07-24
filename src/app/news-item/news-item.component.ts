@@ -32,7 +32,7 @@ export class NewsItemComponent implements OnInit {
     });
   }
 
-  getArticleByUrl(url) {
+  getArticleByUrl(url): Promise<NewsItem> {
     const response = this.fetchNewsService
       .getArticles()
       .then((data) => (this.articles = data))
@@ -42,7 +42,7 @@ export class NewsItemComponent implements OnInit {
     return response;
   }
 
-  goToNews() {
+  goToNews(): void {
     this.router.navigate(['/news']);
   }
 
