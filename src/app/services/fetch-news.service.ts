@@ -12,9 +12,18 @@ export class FetchNewsService {
 
   constructor(private http: HttpClient) {}
 
-  getArticles() {
-    return this.http.get(
-      `${this.BASE_URL}?country=us&pageSize=5&apiKey=${this.API_KEY}`
+  // getArticles() {
+  //   return this.http.get(
+  //     `${this.BASE_URL}?country=us&pageSize=10&apiKey=${this.API_KEY}`
+  //   );
+  // }
+
+  async getArticles() {
+    const response = await fetch(
+      `${this.BASE_URL}?country=us&pageSize=10&apiKey=${this.API_KEY}`
     );
+    const { articles } = await response.json();
+
+    return articles;
   }
 }

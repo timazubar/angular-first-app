@@ -1,4 +1,4 @@
-<div>
+<div class="wrapper">
   <mat-form-field class="input-filter-group">
     <mat-label>Filter news by title</mat-label>
     <input
@@ -9,9 +9,27 @@
     />
   </mat-form-field>
 
-  <app-news-item
+  <!-- <app-news-item
     *ngFor="let article of articles | filter: search"
     [item]="article"
   >
-  </app-news-item>
+  </app-news-item> -->
+
+  <mat-card *ngFor="let article of articles | filter: search" class="card">
+    <mat-card-title>
+      {{ article.title }}
+    </mat-card-title>
+    <mat-card-content>{{ article.description }}</mat-card-content>
+    <a [routerLink]="['/news', article.url.slice(8)]">
+      <img mat-card-image src="{{ article.urlToImage }}" />
+    </a>
+    <a [href]="article.url">Link to the article</a>
+  </mat-card>
+
+  <mat-paginator
+    class="paginator"
+    [length]="100"
+    [pageSize]="10"
+    [pageSizeOptions]="[10, 20, 100]"
+  ></mat-paginator>
 </div>

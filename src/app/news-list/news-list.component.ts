@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { FetchNewsService } from './../services/fetch-news.service';
 import { NewsItem } from '../news-item/news-item.component';
@@ -18,11 +18,14 @@ export class NewsListComponent implements OnInit {
 
   articles: NewsItem[];
 
+  @Input() item: NewsItem;
+
   constructor(private fetchNewsService: FetchNewsService) {}
 
   ngOnInit() {
-    this.fetchNewsService
-      .getArticles()
-      .subscribe((data) => (this.articles = data['articles']));
+    // this.fetchNewsService
+    //   .getArticles()
+    //   .subscribe((data) => (this.articles = data['articles']));
+    this.fetchNewsService.getArticles().then((data) => (this.articles = data));
   }
 }

@@ -1,12 +1,9 @@
-<div class="container">
-  <h1>
+<mat-toolbar color="primary">
+  <a routerLink="/" class="home-link">
     News App Angular
-  </h1>
-  <app-news-list> </app-news-list>
-  <mat-paginator
-    class="paginator"
-    [length]="100"
-    [pageSize]="10"
-    [pageSizeOptions]="[10, 20, 100]"
-  ></mat-paginator>
+  </a>
+</mat-toolbar>
+
+<div>
+  <router-outlet></router-outlet>
 </div>
