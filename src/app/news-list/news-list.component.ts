@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
 import { FetchNewsService } from './../services/fetch-news.service';
 import { NewsItem } from '../news-item/news-item.component';
 import { PageEvent } from '@angular/material/paginator';
+import { Subscription } from 'rxjs';
 
 export interface NewsList {
   articles: NewsItem[];
@@ -14,14 +15,17 @@ export interface NewsList {
   templateUrl: './news-list.component.html',
   styleUrls: ['./news-list.component.scss'],
 })
-export class NewsListComponent implements OnInit {
+export class NewsListComponent implements OnInit, OnDestroy {
   pageEvent: PageEvent;
   pageIndex: number;
   pageSize: number;
 
   totalResults: number;
   search = '';
+
   articles: NewsItem[];
+
+  newsSub: Subscription;
 
   @Input() item: NewsItem;
 
@@ -31,24 +35,14 @@ export class NewsListComponent implements OnInit {
     // this.fetchNewsService
     //   .getArticles()
     //   .subscribe((data) => (this.articles = data['articles']));
-    this.getArticles();
-    this.getTotalResults();
+    this.newsSub = this.fetchNewsService
+      .getData()
+      .subscribe((data) => (this.articles = data.articles));
   }
 
-  getArticles(): void {
-    this.fetchNewsService.getArticles().then((data) => (this.articles = data));
+  ngOnDestroy(): void {
+    if (this.newsSub) {
+      this.newsSub.unsubscribe();
+    }
   }
-
-  getTotalResults(): void {
-    this.fetchNewsService
-      .getTotalResults()
-      .then((data) => (this.totalResults = data));
-  }
-
-  // getPaginatorData(event) {
-  //   this.pageIndex = event.pageIndex;
-  //   this.pageSize = event.pageSize;
-  //   this.totalResults = event.totalResults;
-  //   return event;
-  // }
 }

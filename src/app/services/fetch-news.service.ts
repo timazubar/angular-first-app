@@ -1,5 +1,8 @@
+import { filter, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { RouterLinkActive } from '@angular/router';
 
 // import { NewsList } from '../news-list/news-list.component';
 
@@ -12,25 +15,15 @@ export class FetchNewsService {
 
   constructor(private http: HttpClient) {}
 
-  // getArticles() {
-  //   return this.http.get(
-  //     `${this.BASE_URL}?country=us&pageSize=10&apiKey=${this.API_KEY}`
+  getData(): Observable<any> {
+    const url = `${this.BASE_URL}?country=ua&pageSize=10&apiKey=${this.API_KEY}`;
+    return this.http.get(url);
+  }
+
+  // getArticleByUrl(url: RouterLinkActive): Observable<any> {
+  //   return this.getData().pipe(
+  //     tap(({ articles }) => console.log(articles)),
+  //     filter(({ articles }) => articles.find((a) => a.url.includes(url)))
   //   );
   // }
-
-  async getArticles(): Promise<any> {
-    const response = await fetch(
-      `${this.BASE_URL}?country=ua&pageSize=10&apiKey=${this.API_KEY}`
-    );
-    const { articles } = await response.json();
-    return articles;
-  }
-
-  async getTotalResults(): Promise<any> {
-    const response = await fetch(
-      `${this.BASE_URL}?country=us&pageSize=10&apiKey=${this.API_KEY}`
-    );
-    const { totalResults } = await response.json();
-    return totalResults;
-  }
 }

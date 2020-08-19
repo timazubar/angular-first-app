@@ -1,5 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import {
+  ActivatedRoute,
+  Params,
+  Router,
+  RouterLinkActive,
+} from '@angular/router';
+import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+
 import { FetchNewsService } from '../services/fetch-news.service';
 
 export interface NewsItem {
@@ -14,10 +22,13 @@ export interface NewsItem {
   templateUrl: './news-item.component.html',
   styleUrls: ['./news-item.component.scss'],
 })
-export class NewsItemComponent implements OnInit {
-  @Input() item: any;
+export class NewsItemComponent implements OnInit, OnDestroy {
+  @Input() item: NewsItem;
 
   articles: NewsItem[];
+
+  routerSub: Subscription;
+  getByIdSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,30 +37,39 @@ export class NewsItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      // this.newsItem = this.getArticleByUrl(params.url);
-      this.item = this.getArticleByUrl(params.url);
+    this.routerSub = this.route.params.subscribe((params) => {
+      this.getArticleById(params.url);
     });
-  }
-
-  getArticleByUrl(url): Promise<NewsItem> {
-    const response = this.fetchNewsService
-      .getArticles()
-      .then((data) => (this.articles = data))
-      .then(() => this.articles.find((a) => a.url.includes(url)))
-      .then((data) => (this.item = data));
-
-    return response;
   }
 
   goToNews(): void {
     this.router.navigate(['/news']);
   }
 
-  // getArticleByUrl(url) {
-  //   return this.fetchNewsService
-  //     .getArticles()
-  //     .subscribe((data) => (this.articles = data['articles']))
-  //     .find((a) => a.url.includes(url));
-  // }
+  getArticleById(url): void {
+    this.getByIdSub = this.fetchNewsService
+      .getData()
+      .pipe(
+        map((data) => {
+          return data.articles.find((a) => {
+            console.log(a.url.includes(url));
+            return a.url.includes(url);
+          });
+        })
+      )
+      .subscribe((article) => {
+        this.item = article;
+        console.log(this.item);
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
+
+    if (this.getByIdSub) {
+      this.getByIdSub.unsubscribe();
+    }
+  }
 }
